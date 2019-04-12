@@ -20,11 +20,41 @@ cc.Class({
     onLoad () {
         cc.director.getPhysicsManager().enabled = true;
         cc.director.getPhysicsManager().gravity = cc.v2(0,-640);
+
+        cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit |
+        cc.PhysicsManager.DrawBits.e_pairBit |
+        cc.PhysicsManager.DrawBits.e_centerOfMassBit |
+        cc.PhysicsManager.DrawBits.e_jointBit |
+        cc.PhysicsManager.DrawBits.e_shapeBit;
+
+        this.bool = this.node.getChildByName("bool");
+        this.floor = this.node.getChildByName("floor");
+
+        this.add = 0;
     },
 
     start () {
 
     },
 
-    // update (dt) {},
+    update (dt) {
+        this.add += 1;
+        if (this.add == 300)
+        {
+            var node = cc.instantiate(this.bool)
+            node.x = 300
+            node.y = 500
+            this.node.addChild(node)
+
+            var node2 = cc.instantiate(this.floor)
+            node2.x = 600
+            node2.height = 300
+
+            this.node.addChild(node2)
+            node2.getComponent(cc.PhysicsBoxCollider).size.height = 300
+            node2.getComponent(cc.PhysicsBoxCollider).apply()
+
+            
+        }
+    },
 });
